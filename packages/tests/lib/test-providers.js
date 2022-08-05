@@ -1191,6 +1191,32 @@ describe("Extra tests", function () {
         });
     });
 });
+describe('Test Etherscan getContract', function () {
+    var _this = this;
+    var provider;
+    beforeEach(function () {
+        provider = new ethers_1.ethers.providers.EtherscanProvider();
+    });
+    it('tests that a contract instance for USDT is returned and the correct name can be fetched from the instance', function () { return __awaiter(_this, void 0, void 0, function () {
+        var usdtAddress, contract, name;
+        return __generator(this, function (_a) {
+            switch (_a.label) {
+                case 0:
+                    this.timeout(60000);
+                    usdtAddress = "0xdac17f958d2ee523a2206206994597c13d831ec7";
+                    return [4 /*yield*/, provider.getContract(usdtAddress)];
+                case 1:
+                    contract = _a.sent();
+                    return [4 /*yield*/, contract.name()];
+                case 2:
+                    name = _a.sent();
+                    console.log("HEY:: ", name);
+                    assert_1.default.equal(name, "Tether USD");
+                    return [2 /*return*/];
+            }
+        });
+    }); });
+});
 /*
 describe("Test extra Etherscan operations", function() {
     let provider = new providers.EtherscanProvider();

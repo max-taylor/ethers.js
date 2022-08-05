@@ -22355,6 +22355,15 @@ class EtherscanProvider extends BaseProvider {
             });
         });
     }
+    // https://github.com/ethers-io/ethers.js/issues/3188
+    getContract(address, signer = null) {
+        return __awaiter$e(this, void 0, void 0, function* () {
+            const response = yield this.fetch("contract", {
+                action: "getabi", address
+            });
+            return new Contract(address, JSON.parse(response), this);
+        });
+    }
     isCommunityResource() {
         return (this.apiKey === defaultApiKey$2);
     }

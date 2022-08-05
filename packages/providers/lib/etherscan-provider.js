@@ -56,6 +56,7 @@ var bytes_1 = require("@ethersproject/bytes");
 var properties_1 = require("@ethersproject/properties");
 var transactions_1 = require("@ethersproject/transactions");
 var web_1 = require("@ethersproject/web");
+var contracts_1 = require("@ethersproject/contracts");
 var formatter_1 = require("./formatter");
 var logger_1 = require("@ethersproject/logger");
 var _version_1 = require("./_version");
@@ -510,6 +511,24 @@ var EtherscanProvider = /** @class */ (function (_super) {
                                 }
                                 return item;
                             })];
+                }
+            });
+        });
+    };
+    // https://github.com/ethers-io/ethers.js/issues/3188
+    EtherscanProvider.prototype.getContract = function (address, signer) {
+        if (signer === void 0) { signer = null; }
+        return __awaiter(this, void 0, void 0, function () {
+            var response;
+            return __generator(this, function (_a) {
+                switch (_a.label) {
+                    case 0: return [4 /*yield*/, this.fetch("contract", {
+                            action: "getabi",
+                            address: address
+                        })];
+                    case 1:
+                        response = _a.sent();
+                        return [2 /*return*/, new contracts_1.Contract(address, JSON.parse(response), this)];
                 }
             });
         });

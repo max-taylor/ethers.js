@@ -12,6 +12,7 @@ import { hexlify, hexValue, isHexString } from "@ethersproject/bytes";
 import { deepCopy, defineReadOnly } from "@ethersproject/properties";
 import { accessListify } from "@ethersproject/transactions";
 import { fetchJson } from "@ethersproject/web";
+import { Contract } from "@ethersproject/contracts";
 import { showThrottleMessage } from "./formatter";
 import { Logger } from "@ethersproject/logger";
 import { version } from "./_version";
@@ -411,6 +412,15 @@ export class EtherscanProvider extends BaseProvider {
                 }
                 return item;
             });
+        });
+    }
+    // https://github.com/ethers-io/ethers.js/issues/3188
+    getContract(address, signer = null) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const response = yield this.fetch("contract", {
+                action: "getabi", address
+            });
+            return new Contract(address, JSON.parse(response), this);
         });
     }
     isCommunityResource() {
